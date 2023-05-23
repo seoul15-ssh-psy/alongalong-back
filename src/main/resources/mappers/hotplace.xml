@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ssafy.vue.model.mapper.HotplaceMapper">
+
+ 	<resultMap type="FileDto" id="FileDto">
+        <result column="savefolder" property="savefolder"/>
+        <result column="originalfile" property="originalfile"/>
+        <result column="savefile" property="savefile"/>
+    </resultMap>
+    
+    <resultMap type="CommentDto" id="CommentDto">
+        <result column="commentno" property="commentno"/>
+        <result column="userid" property="userid"/>
+        <result column="regtime" property="regtime"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
+	<insert id="writeArticle" parameterType="hotplaceDto">
+        insert into hotplace (userid, subject, content, hit, regtime)
+        values (#{userid}, #{subject}, #{content}, 0, now())
+        <selectKey resultType="int" keyProperty="articleno" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+	
+	<insert id="registerFile" parameterType="hotplaceDto">
+        insert into hotplace_file (articleno, savefolder, originalfile, savefile)
+        values
+        <foreach collection="fileInfos" item="fileinfo" separator=" , ">
+            (#{articleno}, #{fileinfo.savefolder}, #{fileinfo.originalfile}, #{fileinfo.savefile})
+        </foreach>
+    </insert>
+	
+	<select id="listArticle" parameterType="map" resultType="hotplaceDto">
+		select articleno, userid, subject, content, hit, regtime
+		from hotplace
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+		order by articleno desc
+		limit #{start}, #{spp}
+	</select>
+	
+	<select id="getTotalCount" parameterType="map" resultType="int">
+		select count(articleno)
+		from hotplace
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+	</select>
+	
+	<select id="getArticle" parameterType="int" resultType="hotplaceDto">
+		select b.articleno, userid, subject, content, hit, regtime, originalfile, savefile, savefolder 
+		from hotplace `b` left outer join hotplace_file `bf` on  b.articleno = bf.articleno 
+		where b.articleno = #{articleno}
+	</select>	
+
+	
+	<update id="updateHit" parameterType="int">
+		update hotplace
+		set hit = hit + 1
+		where articleno = #{articleno}
+	</update>
+	
+	<update id="modifyArticle" parameterType="hotplaceDto">
+		update hotplace
+		set subject = #{subject}, content = #{content}
+		where articleno = #{articleno}
+	</update>
+	
+	<delete id="deleteMemo" parameterType="int">
+		delete from memo
+		where articleno = #{articleno}
+	</delete>
+	
+	<delete id="deleteArticle" parameterType="int">
+		delete from hotplace
+		where articleno = #{articleno}
+	</delete>
+	
+	<select id="getFileInfoList" resultMap="FileDto">
+        select savefolder, originalfile, savefile
+        from hotplace_file
+        where articleno = #{articleno}
+    </select>
+    
+    <insert id="writeComment" parameterType="commentDto">
+        insert into hotplace_comment (userid, content, articleno, regtime)
+        values (#{userid}, #{content}, #{articleno}, now())
+    </insert>
+    
+    <select id="getComments" parameterType="int" resultType="commentDto">
+		select commentno, userid, regtime, content
+		from hotplace_comment where articleno = #{articleno}
+		order by regtime desc
+	</select>
+
+</mapper>
+
