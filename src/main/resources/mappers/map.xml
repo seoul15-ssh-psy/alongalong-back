@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ssafy.vue.model.mapper.MapMapper">
+
+	
+	<select id="getIfBookMarked" parameterType="map" resultType="BookMarkDto">
+		select * from map_BookMark where contentid = #{contentid} and userid = #{userid}
+	</select>
+	
+	<insert id="addIntoBookMarked" parameterType="map">
+		insert into map_BookMark (`userid`,`contentid`,`firstimage`,`address`,`title`) 
+		values(#{userid},#{contentid},#{firstimage},#{address},#{title})
+	</insert>
+	
+	<delete id="deleteFromBookMarked" parameterType="map">
+		delete from map_BookMark where userid=#{userid} and contentid=#{contentid}
+	</delete>
+	
+	<insert id="addIntoPlan" parameterType="map">
+		insert into map_Plan (`userid`,`bookmarkid`) 
+		values(#{userid},#{bookmarkid})
+	</insert>
+	
+	<delete id="deleteFromPlan" parameterType="map">
+		delete from map_Plan where userid=#{userid} and bookmarkid=#{bookmarkid}
+	</delete>
+	
+</mapper>
+
