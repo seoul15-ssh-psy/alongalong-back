@@ -16,6 +16,17 @@ public class PlanDto {
 	
 	@ApiModelProperty
 	private int bookmarkid;
+	
+	@ApiModelProperty
+	private int plandate;
+
+	public int getPlandate() {
+		return plandate;
+	}
+
+	public void setPlandate(int plandate) {
+		this.plandate = plandate;
+	}
 
 	public int getPlanid() {
 		return planid;
@@ -43,11 +54,10 @@ public class PlanDto {
 
 	@Override
 	public String toString() {
-		return "PlanDto [planid=" + planid + ", userid=" + userid + ", bookmarkid=" + bookmarkid + "]";
+		return "PlanDto [planid=" + planid + ", userid=" + userid + ", bookmarkid=" + bookmarkid + ", plandate="
+				+ plandate + "]";
 	}
-	
-	
-	
+
 
 
 }

@@ -31,19 +31,19 @@ public class MapServiceImpl implements MapService {
 	
 
 	@Override
-	public List<BookMarkDto> getIfBookMarked(String userid, String contentid) {
+	public List<BookMarkDto> getIfBookMark(String userid, String contentid) {
 		
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("userid", userid);
 		map.put("contentid", contentid);
 
-		return sqlSession.getMapper(MapMapper.class).getIfBookMarked(map);
+		return sqlSession.getMapper(MapMapper.class).getIfBookMark(map);
 	}
 
 
 
 	@Override
-	public int addIntoBookMarked(BookMarkDto bookmarkdto) {
+	public int addIntoBookMark(BookMarkDto bookmarkdto) {
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("userid", bookmarkdto.getUserid());
 		map.put("contentid", bookmarkdto.getContentid());
@@ -51,18 +51,18 @@ public class MapServiceImpl implements MapService {
 		map.put("firstimage", bookmarkdto.getFirstimage());
 		map.put("address", bookmarkdto.getAddress());
 
-		return sqlSession.getMapper(MapMapper.class).addIntoBookMarked(map);
+		return sqlSession.getMapper(MapMapper.class).addIntoBookMark(map);
 	
 	}
 
 
 
 	@Override
-	public int deleteFromBookMarked(String userid, String contentid) {
+	public int deleteFromBookMark(String userid, String contentid) {
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("userid", userid);
 		map.put("contentid", contentid);
-		return sqlSession.getMapper(MapMapper.class).deleteFromBookMarked(map);
+		return sqlSession.getMapper(MapMapper.class).deleteFromBookMark(map);
 	}
 
 
@@ -72,6 +72,7 @@ public class MapServiceImpl implements MapService {
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("userid", plandto.getUserid());
 		map.put("bookmarkid", plandto.getBookmarkid());
+		map.put("plandate", plandto.getPlandate());
 		return sqlSession.getMapper(MapMapper.class).addIntoPlan(map);
 	}
 
@@ -82,7 +83,31 @@ public class MapServiceImpl implements MapService {
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("userid", plandto.getUserid());
 		map.put("bookmarkid", plandto.getBookmarkid());
+		map.put("plandate", plandto.getPlandate());
 		return sqlSession.getMapper(MapMapper.class).deleteFromPlan(map);
+	}
+
+
+
+	@Override
+	public List<BookMarkDto> getBookMarks(String userid) {
+		return sqlSession.getMapper(MapMapper.class).getBookMarks(userid);	
+	}
+
+
+	@Override
+	public List<PlanDto> getPlans(String userid) {
+		return sqlSession.getMapper(MapMapper.class).getPlans(userid);
+	}
+
+
+
+	@Override
+	public List<PlanDto> getPlanByDate(String userid, int plandate) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("userid",userid);
+		map.put("plandate",plandate);
+		return sqlSession.getMapper(MapMapper.class).getPlanByDate(map);
 	}
 
 	

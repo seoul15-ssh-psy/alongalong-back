@@ -13,10 +13,13 @@ import com.ssafy.vue.model.PlanDto;
 
 public interface MapService {
 
-	List<BookMarkDto> getIfBookMarked(String userid, String contentid);
-	int addIntoBookMarked(BookMarkDto bookmarkdto);
-	int deleteFromBookMarked(String userid, String contentid);
+	List<BookMarkDto> getIfBookMark(String userid, String contentid);
+	int addIntoBookMark(BookMarkDto bookmarkdto);
+	int deleteFromBookMark(String userid, String contentid);
 	int addIntoPlan(PlanDto plandto);
 	int deleteFromPlan(PlanDto plandto);
+	List<BookMarkDto> getBookMarks(String userid);
+	List<PlanDto> getPlans(String userid);
+	List<PlanDto> getPlanByDate(String userid, int plandate);
 	
 }

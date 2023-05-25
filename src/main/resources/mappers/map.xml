@@ -5,27 +5,39 @@
 <mapper namespace="com.ssafy.vue.model.mapper.MapMapper">
 
 	
-	<select id="getIfBookMarked" parameterType="map" resultType="BookMarkDto">
+	<select id="getIfBookMark" parameterType="map" resultType="BookMarkDto">
 		select * from map_BookMark where contentid = #{contentid} and userid = #{userid}
 	</select>
 	
-	<insert id="addIntoBookMarked" parameterType="map">
+	<insert id="addIntoBookMark" parameterType="map">
 		insert into map_BookMark (`userid`,`contentid`,`firstimage`,`address`,`title`) 
 		values(#{userid},#{contentid},#{firstimage},#{address},#{title})
 	</insert>
 	
-	<delete id="deleteFromBookMarked" parameterType="map">
+	<delete id="deleteFromBookMark" parameterType="map">
 		delete from map_BookMark where userid=#{userid} and contentid=#{contentid}
 	</delete>
 	
 	<insert id="addIntoPlan" parameterType="map">
-		insert into map_Plan (`userid`,`bookmarkid`) 
-		values(#{userid},#{bookmarkid})
+		insert into map_Plan (`userid`,`bookmarkid`,`plandate`) 
+		values(#{userid},#{bookmarkid},#{plandate})
 	</insert>
 	
 	<delete id="deleteFromPlan" parameterType="map">
-		delete from map_Plan where userid=#{userid} and bookmarkid=#{bookmarkid}
+		delete from map_Plan where userid=#{userid} and bookmarkid=#{bookmarkid} and plandate=#{plandate}
 	</delete>
+	
+	<select id="getBookMarks" parameterType="String" resultType="BookMarkDto">
+		select * from map_BookMark where userid = #{userid}
+	</select>
+	
+	<select id="getPlans" parameterType="String" resultType="PlanDto">
+		select * from map_Plan where userid = #{userid}
+	</select>
+	
+	<select id="getPlanByDate" parameterType="map" resultType="PlanDto">
+		select * from map_Plan where userid = #{userid} and plandate = #{plandate}
+	</select>
 	
 </mapper>
 

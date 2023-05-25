@@ -12,13 +12,17 @@ import com.ssafy.vue.model.BoardParameterDto;
 import com.ssafy.vue.model.BookMarkDto;
 import com.ssafy.vue.model.CommentDto;
 import com.ssafy.vue.model.FileDto;
+import com.ssafy.vue.model.PlanDto;
 
 @Mapper
 public interface MapMapper {
 
-	List<BookMarkDto> getIfBookMarked(Map<String, Object> map);
-	int addIntoBookMarked(Map<String, Object> map);
-	int deleteFromBookMarked(Map<String, Object> map);
+	List<BookMarkDto> getIfBookMark(Map<String, Object> map);
+	int addIntoBookMark(Map<String, Object> map);
+	int deleteFromBookMark(Map<String, Object> map);
 	int addIntoPlan(Map<String, Object> map);
 	int deleteFromPlan(Map<String, Object> map);
+	List<PlanDto> getPlanByDate(Map<String, Object> map);
+	List<PlanDto> getPlans(String userid);
+	List<BookMarkDto> getBookMarks(String userid);
 }
