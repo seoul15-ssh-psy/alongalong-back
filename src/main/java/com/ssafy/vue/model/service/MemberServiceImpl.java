@@ -1,12 +1,15 @@
 package com.ssafy.vue.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.vue.model.BoardDto;
+import com.ssafy.vue.model.CommentDto;
 import com.ssafy.vue.model.MemberDto;
 import com.ssafy.vue.model.mapper.MemberMapper;
 
@@ -52,6 +55,17 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void register(MemberDto memberDto) throws Exception {
 		sqlSession.getMapper(MemberMapper.class).register(memberDto);
+	}
+
+	@Override
+	public List<CommentDto> getComments(String userid) {
+		return sqlSession.getMapper(MemberMapper.class).getComments(userid);
+	}
+
+	@Override
+	public List<BoardDto> getArticles(String userid) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(MemberMapper.class).getArticles(userid);
 	}
 
 }

@@ -19,6 +19,17 @@ public class BoardDto {
 	private int hit;
 	@ApiModelProperty(value = "작성일")
 	private String regtime;
+	@ApiModelProperty(value = "댓글 수")
+	private int commentno;
+	
+	public int getCommentno() {
+		return commentno;
+	}
+
+	public void setCommentno(int commentno) {
+		this.commentno = commentno;
+	}
+
 	@ApiModelProperty
 	private List<FileDto> fileInfos;
 	@ApiModelProperty

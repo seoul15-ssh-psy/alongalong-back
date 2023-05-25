@@ -40,4 +40,12 @@
 		values (#{userid}, #{username}, #{userpwd},#{email},now(), null)
 	</insert>
 	
+	<select id="getComments" parameterType="string" resultType="CommentDto">
+		select * from board_comment where userid=#{userid}  order by commentno desc
+	</select>
+	
+	<select id="getArticles" parameterType="string" resultType="BoardDto">
+		select * from board where userid=#{userid} order by articleno desc
+	</select>
+	
 </mapper>

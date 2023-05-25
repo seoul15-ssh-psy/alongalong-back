@@ -34,8 +34,8 @@
     </insert>
 	
 	<select id="listArticle" parameterType="map" resultType="boardDto">
-		select articleno, userid, subject, content, hit, regtime
-		from board
+		select articleno, userid, subject, content, hit, regtime, (select count(*) from board_comment `comment` where board.articleno = comment.articleno) `commentno`
+		from board `board`
 		<if test="word != null and word != ''">
 			<if test="key == 'subject'">
 				where subject like concat('%', #{word}, '%')
